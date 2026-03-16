@@ -1,6 +1,7 @@
 # Linux AQI Driver Project
 
-A real-time Linux Air Quality (AQI) monitoring stack featuring a kernel driver (CCS811), Python WebSocket gateway, and a modern web dashboard.
+## 📖 About
+A real-time Linux Air Quality (AQI) monitoring stack featuring a kernel driver (CCS811), Python WebSocket gateway, and a modern web dashboard. Built for high-performance telemetry and safe virtualization on macOS.
 
 ## 🚀 Quick Start
 
