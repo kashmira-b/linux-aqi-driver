@@ -35,6 +35,13 @@ open frontend/index.html
 - **Python Backend**: Bridges the VM guest telemetry to host WebSockets.
 - **Frontend**: Real-time visualization with threshold alerts.
 
+### Monitoring Dashboard
+![Live Dashboard](assets/dashboard_live.png)
+*Real-time sensor data visualized on the dashboard.*
+
+![Disconnected State](assets/disconnected.png)
+*Dashboard showing disconnected status when the backend is offline.*
+
 ### End-to-End Test
 We verified the system using `i2c-stub` to mock a physical sensor:
 1.  **Mock Injection**: `i2cset` used inside the VM to simulate high/low AQI levels.
