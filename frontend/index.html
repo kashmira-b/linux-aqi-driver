@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Quality Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Air Quality Monitor</h1>
+            <div id="connection-status" class="status-badge connecting">Connecting...</div>
+        </header>
+        
+        <div id="alert-banner" class="alert hidden">
+            <span class="alert-icon">⚠️</span>
+            <span id="alert-message">Safety thresholds exceeded!</span>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card" id="card-eco2">
+                <h3>eCO₂</h3>
+                <div class="value-container">
+                    <span id="val-eco2" class="value">--</span>
+                    <span class="unit">ppm</span>
+                </div>
+            </div>
+            
+            <div class="metric-card" id="card-tvoc">
+                <h3>TVOC</h3>
+                <div class="value-container">
+                    <span id="val-tvoc" class="value">--</span>
+                    <span class="unit">ppb</span>
+                </div>
+            </div>
+            
+            <div class="metric-card" id="card-gas">
+                <h3>Gas Resistance</h3>
+                <div class="value-container">
+                    <span id="val-gas" class="value">--</span>
+                    <span class="unit">kΩ</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="historyChart"></canvas>
+            <div id="stale-overlay" class="overlay hidden">
+                <div class="overlay-content">
+                    <h2>Sensor Disconnected</h2>
+                    <p>Live data stream interrupted. Showing stale data.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
