@@ -41,28 +41,34 @@ int main(int argc, char *argv[]) {
 
     // Format output as JSON representing the `SensorWebSocketPayload` 'metrics' sub-object
     // The Python process wraps this into the final payload scheme
+    int first = 1;
     printf("{");
     if (reading.valid_fields & AQI_FIELD_ECO2) {
-        printf("\"eco2\": %u, ", reading.eco2_ppm);
+        printf("%s\"eco2\": %u", first ? "" : ", ", reading.eco2_ppm);
+        first = 0;
     }
     if (reading.valid_fields & AQI_FIELD_TVOC) {
-        printf("\"tvoc\": %u, ", reading.tvoc_ppb);
+        printf("%s\"tvoc\": %u", first ? "" : ", ", reading.tvoc_ppb);
+        first = 0;
     }
     if (reading.valid_fields & AQI_FIELD_GAS_RES) {
-        printf("\"gasResistance\": %u, ", reading.gas_res_ohms);
+        printf("%s\"gasResistance\": %u", first ? "" : ", ", reading.gas_res_ohms);
+        first = 0;
     }
     if (reading.valid_fields & AQI_FIELD_TEMP) {
-        printf("\"temperature\": %.2f, ", reading.temperature_mc / 1000.0);
+        printf("%s\"temperature\": %.2f", first ? "" : ", ", reading.temperature_mc / 1000.0);
+        first = 0;
     }
     if (reading.valid_fields & AQI_FIELD_HUMIDITY) {
-        printf("\"humidity\": %u, ", reading.humidity_pc / 1000); // simplify percentage to whole int 
+        printf("%s\"humidity\": %u", first ? "" : ", ", reading.humidity_pc / 1000);
+        first = 0;
     }
-    
+
     // Always include status. If sensor_status != 0, it means underlying hardware error.
     if (reading.sensor_status != 0) {
-        printf("\"hardware_status\": \"ERROR\"}\n");
+        printf("%s\"hardware_status\": \"ERROR\"}\n", first ? "" : ", ");
     } else {
-        printf("\"hardware_status\": \"OK\"}\n");
+        printf("%s\"hardware_status\": \"OK\"}\n", first ? "" : ", ");
     }
 
     return 0;

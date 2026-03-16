@@ -15,7 +15,7 @@
 #define CLASS_NAME "aqi"
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Antigravity");
+MODULE_AUTHOR("Kashmira Pusalkar");
 MODULE_DESCRIPTION("Air Quality Sensor Mock Driver via I2C");
 MODULE_VERSION("0.1");
 
