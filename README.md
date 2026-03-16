@@ -27,13 +27,19 @@ uv run backend/src/sensor_stream.py
 open frontend/index.html
 ```
 
-## 🔍 Walkthrough & Verification
+## 🔍 Walkthrough
 
-### The Stack
-- **Kernel Module (`aqi_sensor.c`)**: A character device driver that communicates via I2C.
-- **C Reader (`aqi_reader.c`)**: Interfaces with `/dev/aqi_sensor` to output JSON telemetry.
-- **Python Backend**: Bridges the VM guest telemetry to host WebSockets.
-- **Frontend**: Real-time visualization with threshold alerts.
+### 1. Hardware Simulation
+We use `i2c-stub` inside the Lima VM to simulate a **CCS811 sensor**, enabling safe, host-independent driver verification.
+
+### 2. Kernel Driver Layer
+The `aqi_sensor` module binds to the virtual I2C bus, exposing a character device at `/dev/aqi_sensor`. It handles SMbus reads and provides an IOCTL interface for hardware control.
+
+### 3. Userspace Aggregation
+The `aqi_reader` (C) fetches data from the kernel and outputs structured JSON. The Python backend then bridges this telemetry to the Host using `limactl shell`.
+
+### 4. Real-time Visualization
+Data is streamed via WebSockets to a modern frontend dashboard with live graphing and threshold alerting.
 
 ### Monitoring Dashboard
 ![Live Dashboard](assets/dashboard_live.png)
@@ -41,12 +47,6 @@ open frontend/index.html
 
 ![Disconnected State](assets/disconnected.png)
 *Dashboard showing disconnected status when the backend is offline.*
-
-### End-to-End Test
-We verified the system using `i2c-stub` to mock a physical sensor:
-1.  **Mock Injection**: `i2cset` used inside the VM to simulate high/low AQI levels.
-2.  **Telemetry Flow**: Data flows from `I2C Bus` -> `Kernel Driver` -> `C Reader` -> `Python Gateway` -> `Browser`.
-3.  **Result**: Successfully visualized real-time 400ppm eCO2 and 100ppb TVOC levels on the dashboard.
 
 ## 🛠 Features
 - [x] Character Device Interface with IOCTL support.
