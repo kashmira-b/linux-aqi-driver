@@ -142,7 +142,7 @@ static int __init aqi_init(void)
         return ret;
     }
 
-    aqi_class = class_create(THIS_MODULE, CLASS_NAME);
+    aqi_class = class_create(CLASS_NAME);
     if (IS_ERR(aqi_class)) {
         cdev_del(&aqi_cdev);
         unregister_chrdev_region(dev_num, 1);
@@ -175,7 +175,7 @@ static void __exit aqi_exit(void)
 }
 
 // T017: I2C Driver Probe and Remove
-static int aqi_i2c_probe(struct i2c_client *client, const struct i2c_device_id *id)
+static int aqi_i2c_probe(struct i2c_client *client)
 {
     pr_info("%s: I2C device found at address 0x%x\n", DRIVER_NAME, client->addr);
     aqi_client = client;

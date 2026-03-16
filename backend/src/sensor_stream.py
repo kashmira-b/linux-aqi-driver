@@ -1,3 +1,6 @@
+# /// script
+# dependencies = ["websockets"]
+# ///
 import asyncio
 import json
 import websockets
@@ -6,25 +9,24 @@ import time
 from datetime import datetime, timezone
 import os
 
-# US2 (Phase 4): Python wrapper over the C userspace executable
-AQI_READER_EXEC = os.path.join(
-    os.path.dirname(__file__), "..", "..", "userspace", "aqi_reader"
-)
-
+# US2 (Phase 4): Python wrapper over the C userspace executable inside the VM
+# Using FULL path to limactl if needed, but assuming PATH is configured via .zshrc
+AQI_READER_CMD = [
+    "limactl", "shell", "aqi-dev", "--", "sudo", "/tmp/aqi-driver/userspace/aqi_reader"
+]
 
 def read_from_c_executable() -> dict:
-    """Spawns the C reader, grabs JSON, returns it. Falls back to mock if C reader absent/fails."""
+    """Spawns the C reader inside Lima VM, grabs JSON, returns it. Falls back to mock."""
     try:
-        if not os.path.exists(AQI_READER_EXEC):
-            raise FileNotFoundError("aqi_reader not found")
-
+        # Check if Lima exists in PATH
         result = subprocess.run(
-            [AQI_READER_EXEC], capture_output=True, text=True, timeout=1
+            AQI_READER_CMD, capture_output=True, text=True, timeout=2
         )
         if result.returncode == 0:
             return json.loads(result.stdout)
         else:
-            return {"status": "ERROR", "error": f"C reader failed: {result.stderr}"}
+            # If Lima fails (e.g. VM not started), the exception handler will trigger fallback
+            raise Exception(f"Lima command failed: {result.stderr}")
     except Exception:
         # Fallback to mock for strictly local testing WITHOUT the Lima VM active
         eco2_base = 400
