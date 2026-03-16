@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+dist/
+*.egg-info/
+
+# Node/Frontend
+node_modules/
+dist/
+build/
+*.log
+.env*
+
+# C / Kernel
+kernel/*.o
+kernel/*.ko
+kernel/.*.cmd
+kernel/.*.d
+kernel/modules.order
+kernel/Module.symvers
+kernel/*.mod
+kernel/*.mod.c
+kernel/.tmp_versions/
+kernel/modules.builtin
+kernel/modules.builtin.modinfo
+userspace/aqi_reader
+userspace/*.o
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Speckit
+.agent/
+.specify/
+specs/
+requirement.md
